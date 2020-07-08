@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2020-6-13 13:04:29 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="hzcc.domain.Order" table="ORRDER">
+        <id name="id" type="java.lang.Long">
+            <column name="ID" />
+            <generator class="identity" />
+        </id>
+        <property name="vipid" type="java.lang.Long">
+            <column name="VIPID" />
+        </property>
+        <property name="qipaishiid" type="java.lang.Long">
+            <column name="QIPAISHIID" />
+        </property>
+        <property name="number" type="java.lang.Integer">
+            <column name="NUMBER" />
+        </property>
+        <property name="data" type="java.lang.String">
+            <column name="DATA" />
+        </property>
+        <property name="time" type="java.lang.String">
+            <column name="TIME" />
+        </property>
+        <property name="cost" type="java.lang.String">
+            <column name="COST" />
+        </property>
+    </class>
+</hibernate-mapping>

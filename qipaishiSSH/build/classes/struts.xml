@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+"http://struts.apache.org/dtds/struts-2.5.dtd">
+<struts>
+	<!--将Struts 2默认的objectFactory设置为spring-->
+	<constant name="struts.objectFactory" value="spring" /> 
+	  
+    <constant name="struts.devMode" value="true" />
+    <constant name="struts.ui.theme" value="simple" />
+    <constant name="struts.action.extension" value="action"></constant>
+    <constant name="struts.enable.DynamicMethodInvocation" value="true"/>
+    <package name="crm" extends="struts-default" namespace="/">
+     	<global-allowed-methods>regex:.*</global-allowed-methods>
+		
+		<action name="vip_*" class="vipAction" method="{1}">
+			<result name="saveUI">/jsp/vip/vipadd.jsp</result>
+			<result name="editUI">/jsp/vip/vipedit.jsp</result>
+			<result name="findAll">/jsp/vip/viplist.jsp</result>
+			<result name="success">/jsp/success.jsp</result>
+			<result name="list" type="redirectAction">vip_findAllVip</result>
+		</action>
+		
+		
+		<action name="sys_*" class="systemAction" method="{1}">
+			<result name="success">/home.jsp</result> 
+			<result name="login">/index.jsp</result> 
+			<result name="editUI">/jsp/sys/syseditpwd.jsp</result>
+			<result name="finish">/jsp/success.jsp</result>
+			
+			
+			<result name="error">/jsp/errormessage.jsp</result>
+			<result name="saveUI">/jsp/sys/sysadd.jsp</result>
+			<result name="saveUI1">/jsp/sys/sysadd1.jsp</result>
+			<result name="editUser">/jsp/sys/sysedit.jsp</result>
+            <result name="editinfoUI">/jsp/sys/syseditinfo.jsp</result>
+			<result name="findAll">/jsp/sys/syslist.jsp</result>
+			<result name="list" type="redirectAction">sys_findAllUser</result>
+			
+			
+		</action>
+		<action name="qipaishi_*" class="qipaishiAction" method="{1}">
+			<result name="saveUI">/jsp/qipaishi/qipaishiadd.jsp</result>
+			<result name="editUI">/jsp/qipaishi/qipaishiedit.jsp</result>
+			<result name="findAll">/jsp/qipaishi/qipaishilist.jsp</result>
+			<result name="success">/jsp/success.jsp</result>
+			<result name="list" type="redirectAction">qipaishi_findAllQipaishi</result>
+		</action>	
+				
+				
+		<action name="order_*" class="orderAction" method="{1}">
+			<result name="findAll">/jsp/order/orderlist.jsp</result>
+			<result name="success">/jsp/success.jsp</result>
+				
+			<!-- <result name="findNumByUserid" type="json">
+				<param name="root">number</param> </result>-->
+				
+			<result name="editUI">/jsp/order/orderedit.jsp</result>
+			<result name="list" type="redirectAction">order_findAll</result>
+			</action>	
+		
+    </package>
+</struts>

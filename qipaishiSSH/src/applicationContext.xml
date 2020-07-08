@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        				   https://www.springframework.org/schema/beans/spring-beans.xsd
+        				   http://www.springframework.org/schema/aop
+        				   https://www.springframework.org/schema/aop/spring-aop.xsd
+        				   http://www.springframework.org/schema/tx
+        				   https://www.springframework.org/schema/tx/spring-tx.xsd
+        				   http://www.springframework.org/schema/context
+        				   https://www.springframework.org/schema/context/spring-context.xsd">
+        				   
+    <!--定义数据源Bean，使用C3P0数据源实现-->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+    	<property name="driverClass" value="org.sqlite.JDBC"></property>
+	  	<property name="jdbcUrl" value="jdbc:sqlite:D:\ruanjian\sqlite\qipaishi.db"></property>
+		<property name="user" value="" />
+       	<property name="password" value="" />
+     </bean>
+     
+    <!--定义Hibernate的SessionFactory-->
+    <bean id="sessionFactory"   
+          class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+      	<property name="dataSource" ref="dataSource"/>
+       	<property name="mappingResources">
+           <list>
+               <value>hzcc/domain/Vip.hbm.xml</value>
+               <value>hzcc/domain/Depart.hbm.xml</value>
+                <value>hzcc/domain/Qipaishi.hbm.xml</value>
+
+               <value>hzcc/domain/User.hbm.xml</value>
+                <value>hzcc/domain/Order.hbm.xml</value>
+           </list>
+      	</property>
+      	<!--设置Hibernate的属性-->
+     	<property name="hibernateProperties">
+       		<props>
+       			<prop key="hibernate.dialect">hzcc.util.SQLiteDialect</prop>
+          		<prop key="hibernate.show_sql">true</prop>
+          		<prop key="hibernate.format_sql">true</prop>
+          		<prop key="hibernate.current_session_context_class">
+                 	org.springframework.orm.hibernate5.SpringSessionContext</prop>
+      		</props>
+     	</property>
+    </bean>
+      
+	<!-- 配置vipDao -->
+	<bean id="vipDao" class="hzcc.dao.impl.VipDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate"></property>
+	</bean>
+	
+	<!-- 配置departDao -->
+	<bean id="departDao" class="hzcc.dao.impl.DepartDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate"></property>
+	</bean>
+	
+	 <!-- 配置userDao -->
+	<bean id="userDao" class="hzcc.dao.impl.UserDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate"></property>
+	</bean>
+	 
+	<!-- 配置QipaishiDao -->
+	<bean id="qipaishiDao" class="hzcc.dao.impl.QipaishiDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate"></property>
+	</bean>
+	<!-- 配置OrderDao -->
+	<bean id="orderDao" class="hzcc.dao.impl.OrderDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate"></property>
+	</bean>
+	 
+	<!-- 配置vipService -->
+	<bean id="vipService" class="hzcc.service.impl.VipServiceImpl">
+	 	<!-- 注入vipDao属性 -->
+	 	<property name="vipDao" ref="vipDao"></property>
+	 	<!-- 注入departDao属性 -->
+	 	<property name="departDao" ref="departDao"></property>
+					
+	</bean>
+
+	<!-- 配置vipAction -->
+	<bean id="vipAction" class="hzcc.web.action.VipAction" scope="prototype">
+		<property name="vipService" ref="vipService"></property>
+	</bean>
+	
+	
+	<!-- 配置userService -->
+	<bean id="userService" class="hzcc.service.impl.UserServiceImpl">
+	 	<!-- 注入userDao属性 -->
+	 	<property name="userDao" ref="userDao"></property>
+	</bean>
+
+	<!-- 配置systemAction -->
+	<bean id="systemAction" class="hzcc.web.action.SystemAction" scope="prototype">
+		<property name="userService" ref="userService"></property>
+	</bean>
+
+	<!-- 配置qipaishiService -->
+	<bean id="qipaishiService" class="hzcc.service.impl.QipaishiServiceImpl">
+	 	<!-- 注入qipaishiDao属性 -->
+	 	<property name="qipaishiDao" ref="qipaishiDao"></property>
+	</bean>
+	
+	<!-- 配置qipaishiAction -->
+	<bean id="qipaishiAction" class="hzcc.web.action.QipaishiAction" scope="prototype">
+		<property name="qipaishiService" ref="qipaishiService"></property>
+	</bean>
+
+
+	<bean id="orderService" class="hzcc.service.impl.OrderServiceImpl">
+	 	<!-- 注入qipaishiDao属性 -->
+	 	<property name="orderDao" ref="orderDao"></property>
+	</bean>
+	
+	<!-- 配置orderAction -->
+	<bean id="orderAction" class="hzcc.web.action.OrderAction" scope="prototype">
+		<property name="orderService" ref="orderService"></property>
+	</bean>
+	
+	
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
+    	<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+    <!-- 配置事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+    	<property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <!-- 开启spring对注解事务的支持 -->
+    <tx:annotation-driven transaction-manager="transactionManager"></tx:annotation-driven>
+</beans>

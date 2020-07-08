@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2020-6-2 12:10:50 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="hzcc.domain.Vip" table="VIP">
+        <id name="id" type="java.lang.Long">
+            <column name="ID" />
+            <generator class="identity" />
+        </id>
+        <property name="name" type="java.lang.String">
+            <column name="NAME" />
+        </property>
+        <property name="sex" type="java.lang.Integer">
+            <column name="SEX" />
+        </property>
+        <property name="phonenumber" type="java.lang.String">
+            <column name="PHONENUMBER" />
+        </property>
+        <property name="cardnumber" type="java.lang.String">
+            <column name="CARDNUMBER" />
+        </property>
+        <property name="cardpassword" type="java.lang.String">
+            <column name="CARDPASSWORD" />
+        </property>
+        <property name="enrolldate" type="java.lang.String">
+            <column name="ENROLLDATE" />
+        </property>
+        <property name="depart" type="java.lang.String">
+            <column name="DEPART" />
+        </property>
+    </class>
+</hibernate-mapping>
